@@ -3,3 +3,4 @@
 ## > https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
 
 #Test commit by KIANG2
+อิอิเทสจ้ารอบที่2

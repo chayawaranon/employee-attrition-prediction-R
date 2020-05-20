@@ -1,6 +1,6 @@
 # CPE 213 Final Project
-## IBM HR Analytics Employee Attrition
-## > https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset
+## Dataset:Human Resources Data Set
+### > https://www.kaggle.com/rhuebner/human-resources-data-set
+### Codebook
+> http://rpubs.com/rhuebner/HRCodebook-13
 
-#Test commit by KIANG2
-อิอิเทสจ้ารอบที่2

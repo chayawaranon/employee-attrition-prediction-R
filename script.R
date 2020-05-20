@@ -52,3 +52,10 @@ preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position
 # critizen
 preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
 preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill')
+# department
+preparedData %>% ggplot() + geom_b ar(aes(x = Department))
+preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position = 'fill')
+# Work period
+data.frame(workPeriod = ((preparedData$TerminateYear + 2000) - as.numeric(preparedData$HireYear))) %>% 
+  ggplot() + geom_histogram(aes(x = workPeriod), bins = 12, color = 'white')
+

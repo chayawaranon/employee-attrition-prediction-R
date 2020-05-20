@@ -38,10 +38,10 @@ preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,
 # Engagement year Histogram
 preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white')
 # position
-preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'stack')+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = Position))+coord_flip()
 preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill')+coord_flip()
 # state
-preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'stack')+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = State))+coord_flip()
 preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill')+coord_flip()
 # sex
 preparedData %>% ggplot() + geom_bar(aes(x = Sex))

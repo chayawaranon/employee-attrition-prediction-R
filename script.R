@@ -1,3 +1,4 @@
+#import library
 library(tidyverse)
 
 #import data
@@ -5,7 +6,10 @@ data <- read.csv('./dataset/HRDataset.csv')
 
 #Data preparaing
 preparedData <- data %>% filter(!is.na(EmpID)) %>% select(c(9:11,13:33),-28)
-for(index in c(1,3,4,8:12,16,17,18,20)){
+
+#convert to factor
+for(index in c(1:7,9,10,26)){
+
   preparedData[,index] <- factor(preparedData[,index])
 }
 

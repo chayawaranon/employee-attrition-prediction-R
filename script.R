@@ -38,4 +38,30 @@ preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0
 library(corrplot)
 correlation <- cor(select(preparedData,c(1:10,21,29:33)))
 #select(preparedData,-c(6,7,15,19))
-corrplot()
+
+# Worked Year Histogram
+preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white')
+# Age Histogram
+preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') 
+# number of special Projects Histogram
+preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white')
+# Recent employee satisfaction Histogram
+preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white')
+# Engagement year Histogram
+preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white')
+# position
+preparedData %>% ggplot() + geom_bar(aes(x = Position))+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill')+coord_flip()
+# state
+preparedData %>% ggplot() + geom_bar(aes(x = State))+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill')+coord_flip()
+# sex
+preparedData %>% ggplot() + geom_bar(aes(x = Sex))
+preparedData %>% ggplot() + geom_bar(aes(x = Sex, fill = Termd),position = 'fill')
+# marital
+preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc))
+preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position = 'fill')
+# critizen
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill')
+

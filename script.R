@@ -27,10 +27,28 @@ preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),Worked
 
 
 #Visualization
-
-preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white') # Worked Year Histogram
-preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') # Age Histogram
-preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white') # number of special Projects Histogram
-preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white') # Recent employee satisfaction Histogram
-preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white') # Engagement year Histogram
-
+# Worked Year Histogram
+preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white')
+# Age Histogram
+preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') 
+# number of special Projects Histogram
+preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white')
+# Recent employee satisfaction Histogram
+preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white')
+# Engagement year Histogram
+preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white')
+# position
+preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'stack')+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill')+coord_flip()
+# state
+preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'stack')+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill')+coord_flip()
+# sex
+preparedData %>% ggplot() + geom_bar(aes(x = Sex))
+preparedData %>% ggplot() + geom_bar(aes(x = Sex, fill = Termd),position = 'fill')
+# marital
+preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc))
+preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position = 'fill')
+# critizen
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill')

@@ -27,3 +27,10 @@ preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),Worked
 
 
 #Visualization
+
+preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white') # Worked Year Histogram
+preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') # Age Histogram
+preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white') # number of special Projects Histogram
+preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white') # Recent employee satisfaction Histogram
+preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white') # Engagement year Histogram
+

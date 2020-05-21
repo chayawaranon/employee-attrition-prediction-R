@@ -1,9 +1,84 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
-
+## initial
 ```{r}
+library(tidyverse)
+library(rpart)
+library(rpart.plot)
+library(caret)
+library(e1071)
+```
 
+## Data prepareation
+```{r}
+data <- read.csv('./dataset/HRDataset.csv')
+preparedData <- data %>% filter(!is.na(EmpID)) %>% select(-1,-2,-34,-35)
+preparedData$HispanicLatino <- tolower(preparedData$HispanicLatino)
+for(index in c(1:7,9:12,15:19,22:28)){
+  preparedData[,index] <- factor(preparedData[,index])
+}
+
+preparedData %>% separate(DOB,c("BirthDate","BirthMonth","BirthYear"),sep = "/") %>% 
+  separate(DateofHire,c("HireDate","HireMonth","HireYear"),sep = "/") %>% 
+  separate(DateofTermination,c("TerminateDate","TerminateMonth","TerminateYear"),sep = "/") -> preparedData
+
+preparedData <- preparedData %>% select(-c("BirthDate","BirthMonth","HireDate","HireMonth","TerminateDate","TerminateMonth"))
+
+for(i in c(1:nrow(preparedData))){
+  if(is.na(preparedData$TerminateYear[i])){
+    preparedData$TerminateYear[i] <- "19"
+  }
+}
+preparedData$TerminateYear <- as.integer(preparedData$TerminateYear)
+preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),WorkedYear = as.integer(TerminateYear) - (as.integer(HireYear)-2000))
+```
+
+## Decision tree
+```{r}
+#select columns
+decisionData <- preparedData %>% select(-c(1:7,10,13,14,20,22,23,26,27),-TerminateYear)
+#Hold out data
+set.seed(222)
+test_index = sample(nrow(decisionData),0.25*nrow(decisionData))
+decisionData_training <- decisionData[-test_index,]
+decisionData_testing <- decisionData[test_index,]
+
+decisionTree <- rpart(Termd ~., data = decisionData_training)
+rpart.plot(decisionTree)
+```
+```{r}
+decisionTree$variable.importance
+```
+
+## Predict test data
+```{r}
+resp <- predict(decisionTree, decisionData_testing, type = 'class')
+
+confusionMatrix(resp,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+                )
+```
+
+## Using Cross-Validation
+```{r}
+train_control<-trainControl(method="cv",
+                            number=5,
+                            search = "random")
+model <-train(Termd~.,
+              data=decisionData_training,
+              trControl=train_control,
+              method="rpart")
+resp2 <- predict(model,decisionData_testing)
+confusionMatrix(resp2,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+)
 ```
 

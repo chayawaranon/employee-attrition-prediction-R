@@ -71,5 +71,11 @@ preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position 
 # Work period
 data.frame(workPeriod = ((preparedData$TerminateYear + 2000) - as.numeric(preparedData$HireYear))) %>% 
   ggplot() + geom_histogram(aes(x = workPeriod), bins = 12, color = 'white')
-
-
+#PerformanceScore 
+preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore ))
+preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore , fill = Termd),position = 'fill')
+#FromDiversityJobfai
+preparedData %>% ggplot() + geom_bar(aes(x = RecruitmentSource ))+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = RecruitmentSource , fill = Termd),position = 'fill')+coord_flip()
+#PayRate
+preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')

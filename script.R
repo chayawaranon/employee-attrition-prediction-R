@@ -105,3 +105,21 @@ head(predict(decisionTree,decisionData_testing))
 pdf("decisionTree.pdf")
 rpart.plot(decisionTree)
 dev.off()
+
+#RaceDesc
+preparedData %>% ggplot() + geom_bar(aes(y = RaceDesc ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = RaceDesc),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = RaceDesc))
+
+#HispanicLatino
+preparedData %>% ggplot() + geom_bar(aes(y = HispanicLatino ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = HispanicLatino),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = HispanicLatino))
+
+#ManagerName
+preparedData %>% ggplot() + geom_bar(aes(y = ManagerName ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = ManagerName))

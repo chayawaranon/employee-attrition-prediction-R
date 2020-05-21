@@ -91,11 +91,8 @@ preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
 library(rpart)
 library(rpart.plot)
 
-<<<<<<< HEAD
-decisionData <- preparedData %>% select(-c(1:7,10,13,14,22,23,26,27,20),-TerminateYear)
-=======
 decisionData <- preparedData %>% select(-c(1:7,10,13,14,20,22,23,26,27),-TerminateYear)
->>>>>>> e799c4b4d8d97a84fed10c8aa5a2d12e65ad22da
+
 set.seed(222)
 test_index = sample(nrow(decisionData),0.25*nrow(decisionData))
 decisionData_training <- decisionData[-test_index,]

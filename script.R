@@ -173,6 +173,15 @@ confusionMatrix(resp2,
                 positive = "1",
                 mode = "prec_recall"
 )
+#--------------------------Logistic Regression ----------------------------------#
+set.seed(10)
+preparedData %>%  select(-HispanicLatino,-FromDiversityJobFairID,-EmpStatusID,-GenderID,-ManagerID,PositionID)->data1
+test_ind <-sample(nrow(data1),0.3*nrow(data1))
+data1_testing<-data1[test_ind,]
+data1_training<-data1[-test_ind,]
+summary(data1_testing)
+summary(data1_training)
 
-
-
+model1<- glm(Termd ~ .,data1_training,family = binomial)
+res_1<-predict(model1,data1_testing,type = 'response')
+confusionMatrix(res_1,data1_testing$Termd,mode = "prec_recall",positive = '1')

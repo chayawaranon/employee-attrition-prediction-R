@@ -23,7 +23,7 @@ for(i in c(1:nrow(preparedData))){
   }
 }
 preparedData$TerminateYear <- as.integer(preparedData$TerminateYear)
-preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),WorkedYear = 19 - (as.integer(HireYear)-2000))
+preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),WorkedYear = as.integer(TerminateYear) - (as.integer(HireYear)-2000))
 
 #Visualization
 
@@ -36,8 +36,12 @@ preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0
 #correlation plot
 
 library(corrplot)
-correlation <- cor(select(preparedData,c(1:10,21,29:33)))
-#select(preparedData,-c(6,7,15,19))
+correlation <- cor(select(preparedData,c(8,29,30,32,33)))
+corrplot(correlation,
+         type = "upper",
+         order = "hclust",
+         tl.col = "black",
+         tl.srt = 45)
 
 # Worked Year Histogram
 preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white')
@@ -79,3 +83,25 @@ preparedData %>% ggplot() + geom_bar(aes(x = RecruitmentSource ))+coord_flip()
 preparedData %>% ggplot() + geom_bar(aes(x = RecruitmentSource , fill = Termd),position = 'fill')+coord_flip()
 #PayRate
 preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
+
+#Decision tree Model
+library(rpart)
+library(rpart.plot)
+
+decisionData <- preparedData %>% select(-c(1:7,10,13,14,22,23,26,27),-TerminateYear)
+set.seed(222)
+test_index = sample(nrow(decisionData),0.25*nrow(decisionData))
+decisionData_training <- decisionData[-test_index,]
+decisionData_testing <- decisionData[test_index,]
+
+# summary(decisionData_training)
+# summary(decisionData_testing)
+decisionTree <- rpart(Termd ~., data = decisionData_training)
+rpart.plot(decisionTree)
+decisionTree$variable.importance
+
+head(predict(decisionTree,decisionData_testing))
+
+pdf("decisionTree.pdf")
+rpart.plot(decisionTree)
+dev.off()

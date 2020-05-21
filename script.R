@@ -1,7 +1,5 @@
 #import data
 library(tidyverse)
-
-#import data
 data <- read.csv('./dataset/HRDataset.csv')
 
 #Data preparaing
@@ -25,6 +23,9 @@ for(i in c(1:nrow(preparedData))){
 preparedData$TerminateYear <- as.integer(preparedData$TerminateYear)
 preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),WorkedYear = as.integer(TerminateYear) - (as.integer(HireYear)-2000))
 
+#summary
+summary(preparedData)
+
 #Visualization
 
 preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white') # Worked Year Histogram
@@ -42,6 +43,8 @@ corrplot(correlation,
          order = "hclust",
          tl.col = "black",
          tl.srt = 45)
+
+correlation
 
 # Worked Year Histogram
 preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white')
@@ -88,7 +91,8 @@ preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
 library(rpart)
 library(rpart.plot)
 
-decisionData <- preparedData %>% select(-c(1:7,10,13,14,22,23,26,27),-TerminateYear)
+decisionData <- preparedData %>% select(-c(1:7,10,13,14,20,22,23,26,27),-TerminateYear)
+
 set.seed(222)
 test_index = sample(nrow(decisionData),0.25*nrow(decisionData))
 decisionData_training <- decisionData[-test_index,]
@@ -101,10 +105,10 @@ rpart.plot(decisionTree)
 decisionTree$variable.importance
 
 head(predict(decisionTree,decisionData_testing))
-
 pdf("decisionTree.pdf")
 rpart.plot(decisionTree)
 dev.off()
+
 
 #RaceDesc
 preparedData %>% ggplot() + geom_bar(aes(y = RaceDesc ))
@@ -123,3 +127,31 @@ preparedData %>% ggplot() + geom_bar(aes(y = ManagerName ))
 preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill')
 
 preparedData %>% ggplot() + geom_bar(aes(x = ManagerName))
+
+train_control<-trainControl(method="cv",
+                            number=5,
+                            search = "random")
+model <-train(Termd~.,
+              data=decisionData_training,
+              trControl=train_control,
+              method="rpart")
+
+resp <- predict(decisionTree, decisionData_testing, type = 'class')
+resp2 <- predict(model,decisionData_testing)
+
+# Evaluation decision tree model
+library(caret)
+library(e1071)
+confusionMatrix(resp,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+                )
+
+confusionMatrix(resp2,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+)
+
+>>>>>>> 16db98356c21f92821f22c2e56a11af5034acde4

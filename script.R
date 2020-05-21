@@ -254,14 +254,22 @@ confusionMatrix(resp2,
                 mode = "prec_recall"
 )
 #--------------------------Logistic Regression ----------------------------------#
-set.seed(10)
-preparedData %>%  select(-HispanicLatino,-FromDiversityJobFairID,-EmpStatusID,-GenderID,-ManagerID,PositionID)->data1
-test_ind <-sample(nrow(data1),0.3*nrow(data1))
-data1_testing<-data1[test_ind,]
-data1_training<-data1[-test_ind,]
-summary(data1_testing)
-summary(data1_training)
 
-model1<- glm(Termd ~ .,data1_training,family = binomial)
-res_1<-predict(model1,data1_testing,type = 'response')
-confusionMatrix(res_1,data1_testing$Termd,mode = "prec_recall",positive = '1')
+logisData <- preparedData %>%  select(-FromDiversityJobFairID,-EmpStatusID,
+                         -GenderID, -ManagerID,-PositionID, -BirthYear, -MarriedID,
+                         -EmpStatusID, -TermReason, -ManagerID, -HireYear, -TerminateYear,
+                         -Zip,-MaritalDesc, -PerfScoreID, -PerformanceScore, -ManagerName,
+                         -RecruitmentSource, -Department, -Position, -State, -EmploymentStatus)
+
+logisData %>% select(Termd) %>% group_by(Termd) %>% 
+  summarise(count = n())
+
+set.seed(123)
+test_ind <-sample(nrow(logisData),0.25*nrow(logisData))
+logisData_testing<-logisData[test_ind,]
+logisData_training<-logisData[-test_ind,]
+
+model1 <- glm(Termd ~ ., data = logisData_training, family = binomial)
+res_1 <- predict(model1,logisData_testing ,type = 'response')
+res_1c <- factor(ifelse(res_1 > 0.495, "1", "0"))
+confusionMatrix(res_1c,logisData_testing$Termd,mode = "prec_recall",positive = '1')

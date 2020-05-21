@@ -109,7 +109,16 @@ pdf("decisionTree.pdf")
 rpart.plot(decisionTree)
 dev.off()
 
+train_control<-trainControl(method="cv",
+                            number=5,
+                            search = "random")
+model <-train(Termd~.,
+              data=decisionData_training,
+              trControl=train_control,
+              method="rpart")
+
 resp <- predict(decisionTree, decisionData_testing, type = 'class')
+resp2 <- predict(model,decisionData_testing)
 
 # Evaluation decision tree model
 library(caret)
@@ -119,4 +128,10 @@ confusionMatrix(resp,
                 positive = "1",
                 mode = "prec_recall"
                 )
+
+confusionMatrix(resp2,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+)
 

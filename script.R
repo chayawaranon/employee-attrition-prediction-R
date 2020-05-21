@@ -2,7 +2,9 @@
 library(tidyverse)
 data <- read.csv('./dataset/HRDataset.csv')
 
-#Data preparaing
+# ----------------------------------- Data preparaing ----------------------------------- #
+
+
 preparedData <- data %>% filter(!is.na(EmpID)) %>% select(-1,-2,-34,-35)
 preparedData$HispanicLatino <- tolower(preparedData$HispanicLatino)
 for(index in c(1:7,9:12,15:19,22:28)){
@@ -26,7 +28,7 @@ preparedData <- preparedData %>% mutate(Age = 119 - as.integer(BirthYear),Worked
 #summary
 summary(preparedData)
 
-#Visualization
+# ----------------------------------- Visualization ----------------------------------- #
 
 #correlation plot
 
@@ -41,44 +43,72 @@ corrplot(correlation,
 correlation
 
 # Worked Year Histogram
-preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white')
+preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+   theme_minimal() +
+   ggtitle("Worked period of employee") 
+
 # Age Histogram
-preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') 
+preparedData %>%
+  filter(Termd == 0) %>% 
+  ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+  theme_minimal() +
+  ggtitle("Age of employees who are still working") 
+
 # number of special Projects Histogram
-preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white')
+preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+  theme_minimal() +
+  ggtitle("Special Project of each employee") +
+  xlab('Special Project')
+
 # Recent employee satisfaction Histogram
-preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white')
+preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+  theme_minimal() +
+  ggtitle("Recent employee satisfaction") +
+  xlab('Satisfaction')
+
 # Engagement year Histogram
-preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white')
+preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white', fill = 'purple') +
+  theme_minimal() +
+  ggtitle("Recent employee satisfaction") 
+
 # position
 preparedData %>% ggplot() + geom_bar(aes(x = Position))+coord_flip()
 preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill')+coord_flip()
+
 # state
 preparedData %>% ggplot() + geom_bar(aes(x = State))+coord_flip()
 preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill')+coord_flip()
+
 # sex
 preparedData %>% ggplot() + geom_bar(aes(x = Sex))
 preparedData %>% ggplot() + geom_bar(aes(x = Sex, fill = Termd),position = 'fill')
+
 # marital
 preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc))
 preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position = 'fill')
+
 # critizen
 preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
-preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill')
+preparedData %>% ggplot() + geom_bar
+
 # department
 preparedData %>% ggplot() + geom_bar(aes(x = Department))
 preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position = 'fill')
-# Work period
-data.frame(workPeriod = ((preparedData$TerminateYear + 2000) - as.numeric(preparedData$HireYear))) %>% 
-  ggplot() + geom_histogram(aes(x = workPeriod), bins = 12, color = 'white')
+
 #PerformanceScore 
 preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore ))
 preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore , fill = Termd),position = 'fill')
+
 #FromDiversityJobfair
 preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID ))
 preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID , fill = Termd),position = 'fill')
+
 #PayRate
 preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
+
+
+# ----------------------------------- Model ----------------------------------- #
+
 
 #Decision tree Model
 library(rpart)

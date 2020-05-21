@@ -42,85 +42,165 @@ corrplot(correlation,
 correlation
 
 # Worked Year Histogram
-preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
-   theme_minimal() +
-   ggtitle("Worked period of employee") 
+preparedData %>% ggplot(aes(x = WorkedYear)) + 
+  geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+   ggtitle("Worked period of employee") +
+   theme_minimal() 
 
 # Age Histogram
 preparedData %>%
-  filter(Termd == 0) %>% 
-  ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
-  theme_minimal() +
-  ggtitle("Age of employees who are still working") 
+  filter(Termd == 0) %>% ggplot(aes(x = Age)) + 
+  geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
+  ggtitle("Age of employees who are still working") +
+  theme_minimal() 
 
 # number of special Projects Histogram
-preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
-  theme_minimal() +
+preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + 
+  geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
   ggtitle("Special Project of each employee") +
-  xlab('Special Project')
+  xlab('Special Project') +
+  theme_minimal() 
 
 # Recent employee satisfaction Histogram
-preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
-  theme_minimal() +
+preparedData %>% ggplot(aes(x = EmpSatisfaction)) + 
+  geom_histogram(binwidth = 1,color = 'white', fill = 'purple') +
   ggtitle("Recent employee satisfaction") +
-  xlab('Satisfaction')
+  xlab('Satisfaction') +
+  theme_minimal()
 
-# Engagement year Histogram
-preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white', fill = 'purple') +
-  theme_minimal() +
-  ggtitle("Recent employee satisfaction") 
+# Engagement Survey Histogram
+preparedData %>% ggplot(aes(x = EngagementSurvey)) + 
+  geom_histogram(binwidth = 0.5,color = 'white', fill = 'purple') +
+  ggtitle("Engagement Survey") +
+  theme_minimal() 
 
 # position
-preparedData %>% ggplot() + geom_bar(aes(x = Position))+coord_flip()
-preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill')+coord_flip()
+preparedData %>% ggplot() + geom_bar(aes(x = Position), fill = 'darkblue') + 
+  ggtitle("Number of employees in each position") +
+  theme_minimal() + 
+  coord_flip() 
+  
+preparedData %>% ggplot() + geom_bar(aes(x = Position, fill = Termd),position = 'fill') + 
+  ggtitle("Number of employees in each position" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate',label = c('No','Yes')) +
+  theme_minimal() +
+  coord_flip() 
 
-# state
-preparedData %>% ggplot() + geom_bar(aes(x = State))+coord_flip()
-preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill')+coord_flip()
+ # state
+preparedData %>% ggplot() + geom_bar(aes(x = State), fill = 'darkblue') + 
+  ggtitle("Number of employee in each state") +
+  theme_minimal() +
+  coord_flip()
+  
+preparedData %>% ggplot() + geom_bar(aes(x = State, fill = Termd),position = 'fill') + 
+  ggtitle("Number of employees in each state" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal() +
+  coord_flip()
 
 # sex
-preparedData %>% ggplot() + geom_bar(aes(x = Sex))
-preparedData %>% ggplot() + geom_bar(aes(x = Sex, fill = Termd),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(x = Sex), fill = 'purple') +
+  ggtitle("Number of employee in each gender") +
+  theme_minimal() +
+  xlab('Gender')
+
+preparedData %>% ggplot() + geom_bar(aes(x = Sex, fill = Termd), position = 'fill') +
+  ggtitle("Number of employees in each gender" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
 
 # marital
-preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc))
-preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position = 'fill')
+preparedData %>% ggplot() + 
+  geom_bar(aes(x = MaritalDesc), fill = 'purple') +
+  ggtitle("Number of employees in each marital status") + 
+  xlab('Marital Status') +
+  theme_minimal()
+
+preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position = 'fill') +
+  ggtitle("Number of employees in each marital status" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  xlab('Marital Status')+
+  theme_minimal()
 
 # critizen
-preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
-preparedData %>% ggplot() + geom_bar
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc), fill = 'purple') +
+  ggtitle("Number of employees in each citizen") +
+  theme_minimal() +
+  xlab('Citizen')
+
+preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill') +
+  ggtitle("Number of employees in each citizen" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal() +
+  xlab('Citizen')
 
 # department
-preparedData %>% ggplot() + geom_bar(aes(x = Department))
-preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(x = Department), fill = 'darkblue') +
+  ggtitle("Number of employees in each department") +
+  theme_minimal() 
+
+preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position = 'fill') +
+  ggtitle("Number of employees in each citizen" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal() +
+  xlab('Citizen')
 
 #PerformanceScore 
-preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore ))
-preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore , fill = Termd),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore ), fill = 'darkblue') +
+  ggtitle("Number of employees in each performance score") +
+  theme_minimal()
+
+preparedData %>% ggplot() + geom_bar(aes(x = PerformanceScore , fill = Termd),position = 'fill') +
+  ggtitle("Number of employees in each performance score" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
 
 #FromDiversityJobfair
-preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID ))
-preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID , fill = Termd),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID ), fill = 'darkblue') +
+  ggtitle("Number of employees from diversity job fair") +
+  theme_minimal()
+
+preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID , fill = Termd),position = 'fill') +
+  ggtitle("Number of employees from diversity job fair" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
+
 
 #PayRate
-preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
-#RaceDesc
-preparedData %>% ggplot() + geom_bar(aes(y = RaceDesc ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = RaceDesc),position = 'fill')
+preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white', fill = 'purple', bins = 20) +
+  ggtitle("Distribution of employees in each pay rate") +
+  theme_minimal()
 
-preparedData %>% ggplot() + geom_bar(aes(x = RaceDesc))
+#RaceDesc
+preparedData %>% ggplot() + geom_bar(aes(x = RaceDesc), fill = 'darkblue') +
+  ggtitle("Number of employees in each race") +
+  theme_minimal() +
+  ylab('Race')
+
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = RaceDesc),position = 'fill') +
+  ggtitle("Number of employees in each race" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
 
 #HispanicLatino
-preparedData %>% ggplot() + geom_bar(aes(y = HispanicLatino ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = HispanicLatino),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(x = HispanicLatino), fill = 'darkblue') +
+  ggtitle("Number of employees who are Hispanic Latino") +
+  theme_minimal()
 
-preparedData %>% ggplot() + geom_bar(aes(x = HispanicLatino))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , x = HispanicLatino),position = 'fill') +
+  ggtitle("Number of employees who are Hispanic Latino" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
 
 #ManagerName
-preparedData %>% ggplot() + geom_bar(aes(y = ManagerName ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill')
+preparedData %>% ggplot() + geom_bar(aes(y = ManagerName), fill = 'darkblue') +
+  ggtitle("Number of employees in each manager") +
+  theme_minimal()
 
-preparedData %>% ggplot() + geom_bar(aes(x = ManagerName))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill') +
+  ggtitle("Number of employees in each manager" , subtitle = 'compared to termination of employee') +
+  scale_fill_discrete(name = 'Terminate', label = c('No','Yes')) +
+  theme_minimal()
 
 
 # ----------------------------------- Model ----------------------------------- #

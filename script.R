@@ -31,7 +31,6 @@ summary(preparedData)
 # ----------------------------------- Visualization ----------------------------------- #
 
 #correlation plot
-
 library(corrplot)
 correlation <- cor(select(preparedData,c(8,29,30,32,33)))
 corrplot(correlation,
@@ -105,6 +104,23 @@ preparedData %>% ggplot() + geom_bar(aes(x = FromDiversityJobFairID , fill = Ter
 
 #PayRate
 preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
+#RaceDesc
+preparedData %>% ggplot() + geom_bar(aes(y = RaceDesc ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = RaceDesc),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = RaceDesc))
+
+#HispanicLatino
+preparedData %>% ggplot() + geom_bar(aes(y = HispanicLatino ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = HispanicLatino),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = HispanicLatino))
+
+#ManagerName
+preparedData %>% ggplot() + geom_bar(aes(y = ManagerName ))
+preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill')
+
+preparedData %>% ggplot() + geom_bar(aes(x = ManagerName))
 
 
 # ----------------------------------- Model ----------------------------------- #
@@ -131,25 +147,6 @@ head(predict(decisionTree,decisionData_testing))
 pdf("decisionTree.pdf")
 rpart.plot(decisionTree)
 dev.off()
-
-
-#RaceDesc
-preparedData %>% ggplot() + geom_bar(aes(y = RaceDesc ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = RaceDesc),position = 'fill')
-
-preparedData %>% ggplot() + geom_bar(aes(x = RaceDesc))
-
-#HispanicLatino
-preparedData %>% ggplot() + geom_bar(aes(y = HispanicLatino ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = HispanicLatino),position = 'fill')
-
-preparedData %>% ggplot() + geom_bar(aes(x = HispanicLatino))
-
-#ManagerName
-preparedData %>% ggplot() + geom_bar(aes(y = ManagerName ))
-preparedData %>% ggplot() + geom_bar(aes(fill = Termd , y = ManagerName),position = 'fill')
-
-preparedData %>% ggplot() + geom_bar(aes(x = ManagerName))
 
 train_control<-trainControl(method="cv",
                             number=5,

@@ -28,12 +28,6 @@ summary(preparedData)
 
 #Visualization
 
-preparedData %>% ggplot(aes(x = WorkedYear)) + geom_histogram(binwidth = 1,color = 'white') # Worked Year Histogram
-preparedData %>% ggplot(aes(x = Age)) + geom_histogram(binwidth = 1,color = 'white') # Age Histogram
-preparedData %>% ggplot(aes(x = SpecialProjectsCount)) + geom_histogram(binwidth = 1,color = 'white') # number of special Projects Histogram
-preparedData %>% ggplot(aes(x = EmpSatisfaction)) + geom_histogram(binwidth = 1,color = 'white') # Recent employee satisfaction Histogram
-preparedData %>% ggplot(aes(x = EngagementSurvey)) + geom_histogram(binwidth = 0.5,color = 'white') # Engagement year Histogram
-
 #correlation plot
 
 library(corrplot)
@@ -71,7 +65,6 @@ preparedData %>% ggplot() + geom_bar(aes(x = MaritalDesc, fill = Termd),position
 # critizen
 preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc))
 preparedData %>% ggplot() + geom_bar(aes(x = CitizenDesc, fill = Termd),position = 'fill')
-
 # department
 preparedData %>% ggplot() + geom_bar(aes(x = Department))
 preparedData %>% ggplot() + geom_bar(aes(x = Department, fill = Termd),position = 'fill')
@@ -154,4 +147,5 @@ confusionMatrix(resp2,
                 mode = "prec_recall"
 )
 
->>>>>>> 16db98356c21f92821f22c2e56a11af5034acde4
+
+

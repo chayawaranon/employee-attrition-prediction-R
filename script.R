@@ -88,7 +88,7 @@ preparedData %>% ggplot(aes(x = PayRate)) + geom_histogram(color = 'white')
 library(rpart)
 library(rpart.plot)
 
-decisionData <- preparedData %>% select(-c(1:7,10,13,14,22,23,26,27),-TerminateYear)
+decisionData <- preparedData %>% select(-c(1:7,10,13,14,22,23,26,27,20),-TerminateYear)
 set.seed(222)
 test_index = sample(nrow(decisionData),0.25*nrow(decisionData))
 decisionData_training <- decisionData[-test_index,]
@@ -101,7 +101,18 @@ rpart.plot(decisionTree)
 decisionTree$variable.importance
 
 head(predict(decisionTree,decisionData_testing))
-
 pdf("decisionTree.pdf")
 rpart.plot(decisionTree)
 dev.off()
+
+resp <- predict(decisionTree, decisionData_testing, type = 'class')
+
+# Evaluation decision tree model
+library(caret)
+library(e1071)
+confusionMatrix(resp,
+                decisionData_testing$Termd,
+                positive = "1",
+                mode = "prec_recall"
+                )
+

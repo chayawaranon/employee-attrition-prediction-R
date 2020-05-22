@@ -272,4 +272,4 @@ logisData_training<-logisData[-test_ind,]
 model1 <- glm(Termd ~ ., data = logisData_training, family = binomial)
 res_1 <- predict(model1,logisData_testing ,type = 'response')
 res_1c <- factor(ifelse(res_1 > 0.495, "1", "0"))
-confusionMatrix(res_1c,logisData_testing$Termd,mode = "prec_recall",positive = '1')
+confusionMatrix(res_1c, logisData_testing$Termd,mode = "prec_recall", positive = '1')

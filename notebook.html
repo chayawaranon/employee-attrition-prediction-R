@@ -1640,12 +1640,12 @@ summary {
 <div id="initial" class="section level2">
 <h2>initial</h2>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages -------------------------------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## -- Attaching packages ------------------------------------------------------------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.3.0     v purrr   0.3.3
 ## v tibble  2.1.3     v dplyr   0.8.4
 ## v tidyr   1.0.2     v stringr 1.4.0
 ## v readr   1.3.1     v forcats 0.5.0</code></pre>
-<pre><code>## -- Conflicts ----------------------------------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ---------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(rpart)
@@ -1784,6 +1784,56 @@ confusionMatrix(resp2,
 ##          Detection Rate : 0.2597          
 ##    Detection Prevalence : 0.2727          
 ##       Balanced Accuracy : 0.8344          
+##                                           
+##        &#39;Positive&#39; Class : 1               
+## </code></pre>
+</div>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic regression</h2>
+<pre class="r"><code>logisData &lt;- preparedData %&gt;%  select(-FromDiversityJobFairID,-EmpStatusID,
+                         -GenderID, -ManagerID,-PositionID, -BirthYear, -MarriedID,
+                         -EmpStatusID, -TermReason, -ManagerID, -HireYear, -TerminateYear,
+                         -Zip,-MaritalDesc, -PerfScoreID, -PerformanceScore, -ManagerName,
+                         -RecruitmentSource, -Department, -Position, -State, -EmploymentStatus)
+
+logisData %&gt;% select(Termd) %&gt;% group_by(Termd) %&gt;% 
+  summarise(count = n())</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Termd"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["count"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"207"},{"1":"1","2":"103"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>set.seed(123)
+test_ind &lt;-sample(nrow(logisData),0.25*nrow(logisData))
+logisData_testing&lt;-logisData[test_ind,]
+logisData_training&lt;-logisData[-test_ind,]</code></pre>
+<pre class="r"><code>model1 &lt;- glm(Termd ~ ., data = logisData_training, family = binomial)
+res_1 &lt;- predict(model1,logisData_testing ,type = &#39;response&#39;)
+res_1c &lt;- factor(ifelse(res_1 &gt; 0.495, &quot;1&quot;, &quot;0&quot;))</code></pre>
+<pre class="r"><code>confusionMatrix(res_1c, logisData_testing$Termd,mode = &quot;prec_recall&quot;, positive = &#39;1&#39;)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  0  1
+##          0 51  5
+##          1  2 19
+##                                           
+##                Accuracy : 0.9091          
+##                  95% CI : (0.8216, 0.9627)
+##     No Information Rate : 0.6883          
+##     P-Value [Acc &gt; NIR] : 3.838e-06       
+##                                           
+##                   Kappa : 0.7806          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.4497          
+##                                           
+##               Precision : 0.9048          
+##                  Recall : 0.7917          
+##                      F1 : 0.8444          
+##              Prevalence : 0.3117          
+##          Detection Rate : 0.2468          
+##    Detection Prevalence : 0.2727          
+##       Balanced Accuracy : 0.8770          
 ##                                           
 ##        &#39;Positive&#39; Class : 1               
 ## </code></pre>

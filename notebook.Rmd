@@ -82,4 +82,35 @@ confusionMatrix(resp2,
                 mode = "prec_recall"
 )
 ```
+## Logistic regression
+```{r}
+logisData <- preparedData %>%  select(-FromDiversityJobFairID,-EmpStatusID,
+                         -GenderID, -ManagerID,-PositionID, -BirthYear, -MarriedID,
+                         -EmpStatusID, -TermReason, -ManagerID, -HireYear, -TerminateYear,
+                         -Zip,-MaritalDesc, -PerfScoreID, -PerformanceScore, -ManagerName,
+                         -RecruitmentSource, -Department, -Position, -State, -EmploymentStatus)
+
+logisData %>% select(Termd) %>% group_by(Termd) %>% 
+  summarise(count = n())
+```
+
+
+```{r}
+set.seed(123)
+test_ind <-sample(nrow(logisData),0.25*nrow(logisData))
+logisData_testing<-logisData[test_ind,]
+logisData_training<-logisData[-test_ind,]
+```
+
+
+```{r}
+model1 <- glm(Termd ~ ., data = logisData_training, family = binomial)
+res_1 <- predict(model1,logisData_testing ,type = 'response')
+res_1c <- factor(ifelse(res_1 > 0.495, "1", "0"))
+```
+
+
+```{r}
+confusionMatrix(res_1c, logisData_testing$Termd,mode = "prec_recall", positive = '1')
+```
 
